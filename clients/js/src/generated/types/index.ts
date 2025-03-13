@@ -6,5 +6,6 @@
  * @see https://github.com/metaplex-foundation/kinobi
  */
 
-export * from './key';
-export * from './myData';
+export * from './candyMachineData';
+export * from './configData';
+export * from './creator';

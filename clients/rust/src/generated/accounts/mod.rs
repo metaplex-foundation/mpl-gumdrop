@@ -5,8 +5,16 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-pub(crate) mod r#my_account;
-pub(crate) mod r#my_pda_account;
+pub(crate) mod r#candy_machine;
+pub(crate) mod r#claim_count;
+pub(crate) mod r#claim_proof;
+pub(crate) mod r#claim_status;
+pub(crate) mod r#config;
+pub(crate) mod r#merkle_distributor;
 
-pub use self::r#my_account::*;
-pub use self::r#my_pda_account::*;
+pub use self::r#candy_machine::*;
+pub use self::r#claim_count::*;
+pub use self::r#claim_proof::*;
+pub use self::r#claim_status::*;
+pub use self::r#config::*;
+pub use self::r#merkle_distributor::*;

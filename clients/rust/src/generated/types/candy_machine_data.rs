@@ -10,7 +10,9 @@ use borsh::BorshSerialize;
 
 #[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct MyData {
-    pub field1: u16,
-    pub field2: u32,
+pub struct CandyMachineData {
+    pub uuid: String,
+    pub price: u64,
+    pub items_available: u64,
+    pub go_live_date: Option<i64>,
 }

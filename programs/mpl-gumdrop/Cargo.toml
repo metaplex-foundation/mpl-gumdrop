@@ -1,18 +1,33 @@
 [package]
-name = "mpl-gumdrop-program"
-version = "0.1.0"
+description = "The Gumdrop program enables easy token airdrops and print edition airdrops, without requiring high up-front rent costs."
 edition = "2021"
-readme = "./README.md"
+keywords = ["airdrop", "distributor", "merkle", "metaplex", "solana", "token"]
 license-file = "../../LICENSE"
-publish = false
+name = "mpl-gumdrop-program"
+repository = "https://github.com/metaplex-foundation/mpl-gumdrop"
+version = "0.1.1"
 
 [lib]
 crate-type = ["cdylib", "lib"]
+name = "mpl_gumdrop"
+
+[features]
+cpi = ["no-entrypoint"]
+default = []
+no-entrypoint = []
+no-idl = []
 
 [dependencies]
-borsh = "^0.10"
-shank = "0.4.2"
-num-derive = "^0.4"
-num-traits = "^0.2"
-solana-program = "~1.16"
-thiserror = "^1.0"
+anchor-lang = "=0.26.0"
+anchor-spl = "=0.26.0"
+borsh = "=0.9.3"
+mpl-token-auth-rules = { version = "=1.0", features = ["no-entrypoint"] }
+mpl-token-metadata = { version = "=1.7.0", features = ["no-entrypoint"] }
+solana-program = "=1.14.13"
+spl-associated-token-account = { version = "1.1.1", features = [
+  "no-entrypoint",
+] }
+spl-token = "3.5.0"
+
+[profile.release]
+overflow-checks = true # Enable integer overflow checks.

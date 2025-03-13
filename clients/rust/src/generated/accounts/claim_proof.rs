@@ -5,27 +5,38 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-use crate::generated::types::Key;
-use crate::generated::types::MyData;
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
 use solana_program::pubkey::Pubkey;
 
+/// Allows for proof and candy minting in separate transactions to avoid transaction-size limit.
+///
+/// Used for all resources (tokens, candy claims, and edition mints)
+
 #[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub struct MyAccount {
-    pub key: Key,
+pub struct ClaimProof {
+    pub discriminator: [u8; 8],
+    /// Total number of NFTs that can be claimed
+    pub amount: u64,
+    /// Number of NFTs claimed. Compared versus `amount` in merkle tree data / proof
+    pub count: u64,
+    /// Authority that claimed the tokens.
     #[cfg_attr(
         feature = "serde",
         serde(with = "serde_with::As::<serde_with::DisplayFromStr>")
     )]
-    pub authority: Pubkey,
-    pub data: MyData,
+    pub claimant: Pubkey,
+    /// Resource allocated for this gumdrop. There should only be 1 per gumdrop
+    #[cfg_attr(
+        feature = "serde",
+        serde(with = "serde_with::As::<serde_with::DisplayFromStr>")
+    )]
+    pub resource: Pubkey,
+    pub resource_nonce: Vec<u8>,
 }
 
-impl MyAccount {
-    pub const LEN: usize = 39;
-
+impl ClaimProof {
     #[inline(always)]
     pub fn from_bytes(data: &[u8]) -> Result<Self, std::io::Error> {
         let mut data = data;
@@ -33,7 +44,7 @@ impl MyAccount {
     }
 }
 
-impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for MyAccount {
+impl<'a> TryFrom<&solana_program::account_info::AccountInfo<'a>> for ClaimProof {
     type Error = std::io::Error;
 
     fn try_from(

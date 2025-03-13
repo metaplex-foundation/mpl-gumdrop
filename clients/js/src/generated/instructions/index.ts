@@ -6,4 +6,12 @@
  * @see https://github.com/metaplex-foundation/kinobi
  */
 
-export * from './create';
+export * from './claim';
+export * from './claimCandy';
+export * from './claimCandyProven';
+export * from './claimEdition';
+export * from './closeDistributor';
+export * from './closeDistributorTokenAccount';
+export * from './newDistributor';
+export * from './proveClaim';
+export * from './recoverUpdateAuthority';

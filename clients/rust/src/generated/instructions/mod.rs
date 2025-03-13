@@ -5,6 +5,22 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-pub(crate) mod r#create;
+pub(crate) mod r#claim;
+pub(crate) mod r#claim_candy;
+pub(crate) mod r#claim_candy_proven;
+pub(crate) mod r#claim_edition;
+pub(crate) mod r#close_distributor;
+pub(crate) mod r#close_distributor_token_account;
+pub(crate) mod r#new_distributor;
+pub(crate) mod r#prove_claim;
+pub(crate) mod r#recover_update_authority;
 
-pub use self::r#create::*;
+pub use self::r#claim::*;
+pub use self::r#claim_candy::*;
+pub use self::r#claim_candy_proven::*;
+pub use self::r#claim_edition::*;
+pub use self::r#close_distributor::*;
+pub use self::r#close_distributor_token_account::*;
+pub use self::r#new_distributor::*;
+pub use self::r#prove_claim::*;
+pub use self::r#recover_update_authority::*;

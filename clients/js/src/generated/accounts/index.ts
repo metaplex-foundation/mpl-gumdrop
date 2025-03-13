@@ -6,5 +6,9 @@
  * @see https://github.com/metaplex-foundation/kinobi
  */
 
-export * from './myAccount';
-export * from './myPdaAccount';
+export * from './candyMachine';
+export * from './claimCount';
+export * from './claimProof';
+export * from './claimStatus';
+export * from './config';
+export * from './merkleDistributor';

@@ -7,5 +7,5 @@
 
 use solana_program::{pubkey, pubkey::Pubkey};
 
-/// `mpl_gumdrop` program ID.
-pub const MPL_GUMDROP_ID: Pubkey = pubkey!("gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a");
+/// `gumdrop` program ID.
+pub const GUMDROP_ID: Pubkey = pubkey!("gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a");

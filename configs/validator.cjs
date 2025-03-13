@@ -13,7 +13,7 @@ module.exports = {
       {
         label: "Mpl Gumdrop",
         programId: "gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a",
-        deployPath: getProgram("mpl_gumdrop_program.so"),
+        deployPath: getProgram("mpl_gumdrop.so"),
       },
       // Below are external programs that should be included in the local validator.
       // You may configure which ones to fetch from the cluster when building

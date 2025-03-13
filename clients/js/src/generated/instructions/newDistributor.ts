@@ -7,7 +7,6 @@
  */
 
 import {
-  ACCOUNT_HEADER_SIZE,
   Context,
   Pda,
   PublicKey,
@@ -17,13 +16,13 @@ import {
 } from '@metaplex-foundation/umi';
 import {
   Serializer,
+  array,
+  bytes,
   mapSerializer,
+  publicKey as publicKeySerializer,
   struct,
-  u16,
-  u32,
   u8,
 } from '@metaplex-foundation/umi/serializers';
-import { getMyAccountSize } from '../accounts';
 import {
   ResolvedAccount,
   ResolvedAccountsWithIndices,
@@ -31,68 +30,80 @@ import {
 } from '../shared';
 
 // Accounts.
-export type CreateInstructionAccounts = {
-  /** The address of the new account */
-  address: Signer;
-  /** The authority of the new account */
-  authority?: PublicKey | Pda;
-  /** The account paying for the storage fees */
+export type NewDistributorInstructionAccounts = {
+  /** Base key of the distributor. */
+  base: Signer;
+  /** [MerkleDistributor]. */
+  distributor: PublicKey | Pda;
+  /** Payer to create the distributor. */
   payer?: Signer;
-  /** The system program */
+  /** The [System] program. */
   systemProgram?: PublicKey | Pda;
 };
 
 // Data.
-export type CreateInstructionData = {
-  discriminator: number;
-  arg1: number;
-  arg2: number;
+export type NewDistributorInstructionData = {
+  discriminator: Array<number>;
+  bump: number;
+  root: Uint8Array;
+  temporal: PublicKey;
 };
 
-export type CreateInstructionDataArgs = { arg1: number; arg2: number };
+export type NewDistributorInstructionDataArgs = {
+  bump: number;
+  root: Uint8Array;
+  temporal: PublicKey;
+};
 
-export function getCreateInstructionDataSerializer(): Serializer<
-  CreateInstructionDataArgs,
-  CreateInstructionData
+export function getNewDistributorInstructionDataSerializer(): Serializer<
+  NewDistributorInstructionDataArgs,
+  NewDistributorInstructionData
 > {
-  return mapSerializer<CreateInstructionDataArgs, any, CreateInstructionData>(
-    struct<CreateInstructionData>(
+  return mapSerializer<
+    NewDistributorInstructionDataArgs,
+    any,
+    NewDistributorInstructionData
+  >(
+    struct<NewDistributorInstructionData>(
       [
-        ['discriminator', u8()],
-        ['arg1', u16()],
-        ['arg2', u32()],
+        ['discriminator', array(u8(), { size: 8 })],
+        ['bump', u8()],
+        ['root', bytes({ size: 32 })],
+        ['temporal', publicKeySerializer()],
       ],
-      { description: 'CreateInstructionData' }
+      { description: 'NewDistributorInstructionData' }
     ),
-    (value) => ({ ...value, discriminator: 0 })
-  ) as Serializer<CreateInstructionDataArgs, CreateInstructionData>;
+    (value) => ({
+      ...value,
+      discriminator: [32, 139, 112, 171, 0, 2, 225, 155],
+    })
+  ) as Serializer<
+    NewDistributorInstructionDataArgs,
+    NewDistributorInstructionData
+  >;
 }
 
 // Args.
-export type CreateInstructionArgs = CreateInstructionDataArgs;
+export type NewDistributorInstructionArgs = NewDistributorInstructionDataArgs;
 
 // Instruction.
-export function create(
-  context: Pick<Context, 'identity' | 'payer' | 'programs'>,
-  input: CreateInstructionAccounts & CreateInstructionArgs
+export function newDistributor(
+  context: Pick<Context, 'payer' | 'programs'>,
+  input: NewDistributorInstructionAccounts & NewDistributorInstructionArgs
 ): TransactionBuilder {
   // Program ID.
   const programId = context.programs.getPublicKey(
-    'mplGumdrop',
+    'gumdrop',
     'gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a'
   );
 
   // Accounts.
   const resolvedAccounts = {
-    address: {
-      index: 0,
-      isWritable: true as boolean,
-      value: input.address ?? null,
-    },
-    authority: {
+    base: { index: 0, isWritable: false as boolean, value: input.base ?? null },
+    distributor: {
       index: 1,
-      isWritable: false as boolean,
-      value: input.authority ?? null,
+      isWritable: true as boolean,
+      value: input.distributor ?? null,
     },
     payer: {
       index: 2,
@@ -107,12 +118,9 @@ export function create(
   } satisfies ResolvedAccountsWithIndices;
 
   // Arguments.
-  const resolvedArgs: CreateInstructionArgs = { ...input };
+  const resolvedArgs: NewDistributorInstructionArgs = { ...input };
 
   // Default values.
-  if (!resolvedAccounts.authority.value) {
-    resolvedAccounts.authority.value = context.identity.publicKey;
-  }
   if (!resolvedAccounts.payer.value) {
     resolvedAccounts.payer.value = context.payer;
   }
@@ -137,12 +145,12 @@ export function create(
   );
 
   // Data.
-  const data = getCreateInstructionDataSerializer().serialize(
-    resolvedArgs as CreateInstructionDataArgs
+  const data = getNewDistributorInstructionDataSerializer().serialize(
+    resolvedArgs as NewDistributorInstructionDataArgs
   );
 
   // Bytes Created On Chain.
-  const bytesCreatedOnChain = getMyAccountSize() + ACCOUNT_HEADER_SIZE;
+  const bytesCreatedOnChain = 0;
 
   return transactionBuilder([
     { instruction: { keys, programId, data }, signers, bytesCreatedOnChain },

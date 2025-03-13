@@ -7,14 +7,16 @@
 
 use borsh::BorshDeserialize;
 use borsh::BorshSerialize;
-use num_derive::FromPrimitive;
+use solana_program::pubkey::Pubkey;
 
-#[derive(
-    BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq, PartialOrd, Hash, FromPrimitive,
-)]
+#[derive(BorshSerialize, BorshDeserialize, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
-pub enum Key {
-    Uninitialized,
-    MyAccount,
-    MyPdaAccount,
+pub struct Creator {
+    #[cfg_attr(
+        feature = "serde",
+        serde(with = "serde_with::As::<serde_with::DisplayFromStr>")
+    )]
+    pub address: Pubkey,
+    pub verified: bool,
+    pub share: u8,
 }

@@ -1,6 +1,9 @@
-[workspace]
-members = ["clients/rust", "programs/mpl-gumdrop"]
-resolver = "2"
+[programs.Devnet]
+mpl-gumdrop = "gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a"
+
+[provider]
+cluster = "localnet"
+wallet = "~/.config/solana/id.json"
 
 [profile.release]
 codegen-units = 1

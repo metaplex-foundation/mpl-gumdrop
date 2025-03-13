@@ -5,8 +5,10 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-pub(crate) mod r#key;
-pub(crate) mod r#my_data;
+pub(crate) mod r#candy_machine_data;
+pub(crate) mod r#config_data;
+pub(crate) mod r#creator;
 
-pub use self::r#key::*;
-pub use self::r#my_data::*;
+pub use self::r#candy_machine_data::*;
+pub use self::r#config_data::*;
+pub use self::r#creator::*;

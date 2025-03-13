@@ -5,6 +5,6 @@
 //! [https://github.com/metaplex-foundation/kinobi]
 //!
 
-pub(crate) mod mpl_gumdrop;
+pub(crate) mod gumdrop;
 
-pub use self::mpl_gumdrop::MplGumdropError;
+pub use self::gumdrop::GumdropError;
