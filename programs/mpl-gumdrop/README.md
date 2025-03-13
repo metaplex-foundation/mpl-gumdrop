@@ -1,6 +1,6 @@
-# Mpl Project Name
+# Mpl Gumdrop
 
-My project description
+The Gumdrop program enables easy token airdrops and print edition airdrops, without requiring high up-front rent costs.
 
 ## Building
 

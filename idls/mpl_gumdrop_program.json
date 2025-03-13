@@ -1,6 +1,6 @@
 {
   "version": "0.1.0",
-  "name": "mpl_project_name_program",
+  "name": "mpl_gumdrop_program",
   "instructions": [
     {
       "name": "Create",
@@ -166,7 +166,7 @@
   ],
   "metadata": {
     "origin": "shank",
-    "address": "MyProgram1111111111111111111111111111111111",
+    "address": "gdrpGjVffourzkdDRrQmySw4aTHr8a3xmQzzxSwFD1a",
     "binaryVersion": "0.3.0",
     "libVersion": "0.3.0"
   }
